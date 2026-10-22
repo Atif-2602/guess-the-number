@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guess the Number · Java Mini Project</title>
+  <meta name="description" content="A number guessing game powered by a Java backend." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>" />
+  <link rel="stylesheet" href="styles.css?v=2" />
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <main class="app">
+    <header class="hero">
+      <p class="eyebrow">Java Mini Project</p>
+      <h1>Guess the <span class="gradient-text">Number</span></h1>
+      <p class="subtitle">I am thinking of a number between 1 and 100. Can you find it?</p>
+    </header>
+
+    <section class="card" aria-label="Game">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-label">Attempts</span>
+          <span class="stat-value" id="attempts">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Possible range</span>
+          <span class="stat-value" id="range">1 – 100</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Best score</span>
+          <span class="stat-value" id="best">–</span>
+        </div>
+      </div>
+
+      <form id="guess-form" class="guess-row" autocomplete="off" novalidate>
+        <label class="sr-only" for="guess-input">Your guess</label>
+        <input
+          id="guess-input"
+          class="guess-input"
+          type="text"
+          inputmode="numeric"
+          maxlength="3"
+          placeholder="?"
+          aria-describedby="feedback"
+        />
+        <button type="submit" class="primary" id="guess-btn">Guess</button>
+      </form>
+
+      <p id="feedback" class="feedback info" role="status" aria-live="polite">
+        <span class="feedback-icon" aria-hidden="true">i</span>
+        <span class="feedback-text">Ready when you are. Type a number and hit Guess.</span>
+      </p>
+
+      <ul id="history" class="history" aria-label="Guess history"></ul>
+    </section>
+
+    <div class="actions">
+      <button type="button" class="ghost" id="new-game">New game</button>
+      <button type="button" class="ghost" id="how-to-btn" aria-expanded="false" aria-controls="how-to">
+        How to play
+      </button>
+    </div>
+
+    <details class="how-to" id="how-to">
+      <summary>Rules of the game</summary>
+      <ol>
+        <li>The server picks a secret number between <strong>1</strong> and <strong>100</strong>.</li>
+        <li>Type a guess and press <kbd>Enter</kbd> or click <strong>Guess</strong>.</li>
+        <li>You get a hint: too small, or too large.</li>
+        <li>Only valid guesses count as attempts, so typing letters or numbers like 250 costs nothing.</li>
+        <li>Find the number in as few attempts as possible and beat your best score.</li>
+      </ol>
+      <p class="how-to-note">The secret number stays in the Java backend — no peeking in the browser!</p>
+    </details>
+
+    <footer class="footer">
+      <span>Console version: <code>run-console.bat</code></span>
+      <span class="dot" aria-hidden="true">•</span>
+      <span>Java + HTML/CSS/JS</span>
+    </footer>
+  </main>
+
+  <script src="app.js?v=2"></script>
+</body>
+</html>
