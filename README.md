@@ -14,6 +14,8 @@ count** as an attempt.
 The project uses **only the JDK** - no external libraries, no database, no
 build tool to install.
 
+**Live demo:** <https://atif-2602.github.io/guess-the-number/>
+
 ![Guess the Number website](docs/screenshot.png)
 
 ---
@@ -23,7 +25,16 @@ build tool to install.
 - JDK 17 or newer (`javac -version` should work)
 - Any modern browser (Chrome, Edge, Firefox)
 
-## 2. Run the website
+## 2. Play it online
+
+The website is already deployed on GitHub Pages:
+
+**<https://atif-2602.github.io/guess-the-number/>**
+
+GitHub Pages can only host static files, so the page automatically runs the
+browser version of the game there. No installation needed.
+
+## 3. Run the website locally
 
 Double-click **`run.bat`**.
 
@@ -36,7 +47,7 @@ To use another port:
 run.bat 9090
 ```
 
-## 3. Run the console version
+## 4. Run the console version
 
 Double-click **`run-console.bat`**, or:
 
@@ -45,7 +56,7 @@ build.bat
 java -cp out guessnumber.Main
 ```
 
-## 4. Run the automated tests
+## 5. Run the automated tests
 
 ```bat
 test.bat
@@ -57,7 +68,7 @@ shuts the server down again.
 
 ---
 
-## 5. Features
+## 6. Features
 
 **Game rules**
 
@@ -86,7 +97,7 @@ shuts the server down again.
 
 ---
 
-## 6. Project structure
+## 7. Project structure
 
 ```
 JAVA_MINIPROJECT/
@@ -94,6 +105,7 @@ JAVA_MINIPROJECT/
 |-- run.bat                    build + start the web server
 |-- run-console.bat            build + play in the terminal
 |-- test.bat                   run the automated API/UI tests
+|-- deploy.bat                 publish web/ to the gh-pages branch
 |
 |-- src/guessnumber/
 |   |-- Main.java              console program (menu, rounds, summary)
@@ -106,15 +118,16 @@ JAVA_MINIPROJECT/
 |-- web/
 |   |-- index.html             game page
 |   |-- styles.css             styling and animations
-|   `-- app.js                 browser logic (calls the Java API)
+|   `-- app.js                 browser logic + offline game engine
 |
 |-- tests/api-test.ps1         automated end-to-end test
+|-- tools/deploy-pages.ps1     copies web/ into the gh-pages branch
 `-- docs/screenshot.png        screenshot of the website
 ```
 
 ---
 
-## 7. How the website works
+## 8. How the website works
 
 ```
 Browser (HTML/CSS/JS)  --- POST /api/new-game --->  Java WebServer
@@ -143,7 +156,7 @@ Status codes: `200` ok, `400` invalid guess, `404` unknown game,
 
 ---
 
-## 8. Java concepts used
+## 9. Java concepts used
 
 - Classes, objects and encapsulation (`Game`, `GameSession`)
 - `enum` for the three possible hints (`GuessResult`)
@@ -158,7 +171,7 @@ Status codes: `200` ok, `400` invalid guess, `404` unknown game,
 - Networking: `com.sun.net.httpserver.HttpServer` and JSON requests/responses
 - `StringBuilder`, `String.format`-style building and text escaping
 
-## 9. Possible future improvements
+## 10. Possible future improvements
 
 - Difficulty levels (1-50 / 1-100 / 1-1000) and a countdown timer
 - Multiplayer "closest guess wins" mode using WebSockets
@@ -166,23 +179,30 @@ Status codes: `200` ok, `400` invalid guess, `404` unknown game,
 - Sound effects and a light/dark theme switch
 - Deploy the same Java server to a hosting service so friends can play
 
-## 10. Deploying the website (GitHub Pages)
+## 11. Deploying the website (GitHub Pages)
 
-The repository contains a GitHub Actions workflow
-(`.github/workflows/pages.yml`) that publishes the `web` folder to GitHub
-Pages on every push to `main`.
+The site is live at:
 
-One-time setup:
+**<https://atif-2602.github.io/guess-the-number/>**
 
-1. Create a **public** repository on GitHub, for example `guess-the-number`.
-2. Push this project to the `main` branch.
-3. Open the repository on GitHub: **Settings -> Pages -> Build and deployment**
-   and choose **Source: GitHub Actions**.
-4. Wait for the "Deploy website to GitHub Pages" action to finish, then open
-   `https://<your-username>.github.io/<repository>/`.
+It is published from the **`gh-pages` branch**, which contains only the
+contents of the `web` folder. The repository's Pages setting is:
+
+**Settings -> Pages -> Build and deployment -> Deploy from a branch ->
+`gh-pages` / (root)**
+
+To publish an updated website, run:
+
+```bat
+deploy.bat
+```
+
+The script copies the current `web` folder into the `gh-pages` branch and
+pushes it; GitHub Pages refreshes the live site in about a minute. You can
+also pass a commit message: `deploy.bat "new features"`.
 
 GitHub Pages can only serve static files, so there the page automatically
-switches to the built-in browser version of the game. The rules, hints,
-attempt counting and best score are identical; only the secret number is
-created by JavaScript instead of Java. When you open the site through
-`run.bat`, the Java server is used instead.
+switches to the built-in browser version of the game (`app.js`, `local` mode).
+The rules, hints, attempt counting and best score are identical; only the
+secret number is created by JavaScript instead of Java. When you open the site
+through `run.bat`, the Java server is used instead.
